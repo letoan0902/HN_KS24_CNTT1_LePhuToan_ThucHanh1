@@ -100,14 +100,14 @@ group by g.guest_id, g.guest_name;
 
 -- 3. tính doanh thu của mỗi phòng (doanh thu = số ngày ở × giá thuê theo ngày)
 select r.room_id, r.room_type, r.price_per_day,
-       sum(datediff(b.check_out, b.check_in) * r.price_per_day) as doanh_thu
+sum(datediff(b.check_out, b.check_in) * r.price_per_day) as doanh_thu
 from rooms r
 join bookings b on r.room_id = b.room_id
 group by r.room_id, r.room_type, r.price_per_day;
 
 -- 4. hiển thị tổng doanh thu của từng loại phòng
 select r.room_type,
-       sum(datediff(b.check_out, b.check_in) * r.price_per_day) as tong_doanh_thu
+sum(datediff(b.check_out, b.check_in) * r.price_per_day) as tong_doanh_thu
 from rooms r
 join bookings b on r.room_id = b.room_id
 group by r.room_type;
@@ -143,10 +143,9 @@ where guest_id not in (select distinct guest_id from bookings);
 select *
 from rooms
 where room_id = (
-    select room_id
-    from bookings
-    group by room_id
-    order by count(*) desc
-    limit 1
+select room_id
+from bookings
+group by room_id
+order by count(*) desc
+limit 1
 );
-
